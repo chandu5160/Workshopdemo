@@ -144,15 +144,14 @@ class PipelineStack(Stack):
             synth=pipelines.ShellStep(
                 "Synth",
                 input=pipelines.CodePipelineSource.connection(
-                    "donnieprakoso/demo-cdk",
+                    "chandu5160/Workshopdemo",
                     "main",
                     connection_arn=github_connection_arn),
                 commands=[
-                    "cd 6-pipelines-serverless-api/cdk/",
                     "npm install -g aws-cdk",
                     "pip install -r requirements.txt", "cdk synth"
                 ],
-                primary_output_directory="6-pipelines-serverless-api/cdk/cdk.out"))
+                primary_output_directory="cdk.out"))
 
         staging_app = DemoApplication(self, "staging", env=env)
 

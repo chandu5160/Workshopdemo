@@ -10,6 +10,7 @@ import aws_cdk as _cdk
 from aws_cdk import aws_ssm as _ssm
 from aws_cdk import aws_apigateway as _ag
 from aws_cdk import pipelines
+from aws_cdk.pipelines import CodePipelineSource
 
 
 class ServerlessApiStack(Stack):
@@ -137,14 +138,14 @@ class PipelineStack(Stack):
         github_connection_arn = _ssm.StringParameter.from_string_parameter_name(
             self,
             "github-connection-arn",
-            string_parameter_name="github-connection-arn").string_value
+            string_parameter_name="github-connection").string_value
         pipeline = pipelines.CodePipeline(
             self,
             "Pipeline",
             synth=pipelines.ShellStep(
                 "Synth",
                 input=pipelines.CodePipelineSource.connection(
-                    "chandu5160/Workshopdemo",
+                    "donnieprakoso/demo-cdk",
                     "main",
                     connection_arn=github_connection_arn),
                 commands=[

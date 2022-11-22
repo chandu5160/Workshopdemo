@@ -135,19 +135,16 @@ class PipelineStack(Stack):
     def __init__(self, scope, id, env=None):
         super().__init__(scope, id, env=env)
 
-        github_connection_arn = _ssm.StringParameter.from_string_parameter_name(
-            self,
-            "github-connection-arn",
-            string_parameter_name="github-connection").string_value
+        # github_connection_arn = _ssm.StringParameter.from_string_parameter_name(
+        #     self,
+        #     "github-connection-arn",
+        #     string_parameter_name="github-connection").string_value
         pipeline = pipelines.CodePipeline(
             self,
             "Pipeline",
             synth=pipelines.ShellStep(
                 "Synth",
-                input=pipelines.CodePipelineSource.connection(
-                    "donnieprakoso/demo-cdk",
-                    "main",
-                    connection_arn=github_connection_arn),
+                input= CodePipelineSource.git_hub("chandu5160/Workshopdemo", "main"),
                 commands=[
                     "npm install -g aws-cdk",
                     "pip install -r requirements.txt", "cdk synth"
@@ -184,8 +181,8 @@ class DemoApplication(Stage):
         self.out_apiendpointURL = app.out_apiendpointURL
 
 
-AWS_ACCOUNT_ID = _cdk.Aws.ACCOUNT_ID
-AWS_REGION = _cdk.Aws.REGION
+AWS_ACCOUNT_ID = '886489574008'
+AWS_REGION = 'us-east-1'
 STACK_NAME = "democdkpipelines-api"
 
 app = _cdk.App()
